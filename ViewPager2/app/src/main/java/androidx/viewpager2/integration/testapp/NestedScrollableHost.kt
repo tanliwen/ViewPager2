@@ -18,12 +18,14 @@ package androidx.viewpager2.integration.testapp
 
 import android.content.Context
 import android.util.AttributeSet
+import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewConfiguration
 import android.widget.FrameLayout
 import androidx.viewpager2.widget.ViewPager2
 import androidx.viewpager2.widget.ViewPager2.ORIENTATION_HORIZONTAL
+import com.xunlei.tdlive.pulltorefresh.LogTag
 import kotlin.math.absoluteValue
 import kotlin.math.sign
 
@@ -76,6 +78,7 @@ class NestedScrollableHost : FrameLayout {
 
         // Early return if child can't scroll in same direction as parent
         if (!canChildScroll(orientation, -1f) && !canChildScroll(orientation, 1f)) {
+            Log.d(LogTag.TAG_LIVE_SMOOTH, "handleInterceptTouchEvent1 return")
             return
         }
 
@@ -83,6 +86,8 @@ class NestedScrollableHost : FrameLayout {
             initialX = e.x
             initialY = e.y
             parent.requestDisallowInterceptTouchEvent(true)
+
+            Log.d(LogTag.TAG_LIVE_SMOOTH, "handleInterceptTouchEvent2 requestDisallowInterceptTouchEvent(true)")
         } else if (e.action == MotionEvent.ACTION_MOVE) {
             val dx = e.x - initialX
             val dy = e.y - initialY
@@ -96,14 +101,17 @@ class NestedScrollableHost : FrameLayout {
                 if (isVpHorizontal == (scaledDy > scaledDx)) {
                     // Gesture is perpendicular, allow all parents to intercept
                     parent.requestDisallowInterceptTouchEvent(false)
+                    Log.d(LogTag.TAG_LIVE_SMOOTH, "handleInterceptTouchEvent3 requestDisallowInterceptTouchEvent(false)")
                 } else {
                     // Gesture is parallel, query child if movement in that direction is possible
                     if (canChildScroll(orientation, if (isVpHorizontal) dx else dy)) {
                         // Child can scroll, disallow all parents to intercept
                         parent.requestDisallowInterceptTouchEvent(true)
+                        Log.d(LogTag.TAG_LIVE_SMOOTH, "handleInterceptTouchEvent4 requestDisallowInterceptTouchEvent(true)")
                     } else {
                         // Child cannot scroll, allow all parents to intercept
                         parent.requestDisallowInterceptTouchEvent(false)
+                        Log.d(LogTag.TAG_LIVE_SMOOTH, "handleInterceptTouchEvent5 requestDisallowInterceptTouchEvent(false)")
                     }
                 }
             }

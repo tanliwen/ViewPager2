@@ -25,9 +25,16 @@
         android:theme="@style/Theme.AppCompat.Light">
 
         <activity android:name=".CardViewActivity">
-            <intent-filter>
+        <!--    <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.SAMPLE_CODE"/>
+            </intent-filter>-->
+        </activity>
+
+        <activity android:name="com.smooth.conflict.demo.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
 
@@ -88,10 +95,10 @@
         </activity>
 
         <activity android:name=".BrowseActivity">
-            <intent-filter>
+           <!-- <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
+            </intent-filter>-->
         </activity>
     </application>
 </manifest>
