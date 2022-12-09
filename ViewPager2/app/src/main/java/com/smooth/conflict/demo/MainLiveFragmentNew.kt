@@ -62,6 +62,7 @@ open class MainLiveFragmentNew : Fragment(), OnRefreshLoadMoreListener {
     private var runnable = Runnable {
         val data1 = Data()
         data1.orientation = RecyclerView.HORIZONTAL
+        data1.backGroundColor = Color.YELLOW
         for (item in 1..30) {
 
             data1.dataList.add(Item("$item"))
@@ -69,11 +70,13 @@ open class MainLiveFragmentNew : Fragment(), OnRefreshLoadMoreListener {
 
         val data2 = Data()
         data2.orientation = RecyclerView.VERTICAL
+        data2.backGroundColor = Color.RED
         for (item in 1..20) {
             data2.dataList.add(Item("$item"))
         }
 
         val data3 = Data()
+        data3.backGroundColor = Color.BLUE
         data3.orientation = RecyclerView.VERTICAL
         for (item in 1..10) {
             data3.dataList.add(Item("$item"))
@@ -122,7 +125,7 @@ open class MainLiveFragmentNew : Fragment(), OnRefreshLoadMoreListener {
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
             with(holder) {
                 tv.text =  data.dataList[position].title
-                tv.setBackgroundResource(CELL_COLORS[position % CELL_COLORS.size])
+                tv.setBackgroundColor(data.backGroundColor)
             }
         }
 
@@ -160,6 +163,7 @@ open class MainLiveFragmentNew : Fragment(), OnRefreshLoadMoreListener {
     class Data {
         var orientation: Int = 0
         var dataList: ArrayList<Item> = ArrayList()
+        var backGroundColor: Int = Color.WHITE
     }
 
     inner class Adapter(private var dataList: ArrayList<Data>) :
