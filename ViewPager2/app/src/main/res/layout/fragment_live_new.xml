@@ -11,14 +11,16 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+
         <androidx.viewpager2.integration.testapp.NestedScrollableHost
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerview"
+                android:id="@+id/recyclerViewRoot"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
+
 
         </androidx.viewpager2.integration.testapp.NestedScrollableHost>
 

@@ -34,8 +34,8 @@ open class MainLiveFragmentNew : Fragment(), OnRefreshLoadMoreListener {
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-//        return inflater.inflate(R.layout.fragment_live_new, container, false)
-        return inflater.inflate(R.layout.fragment_live_new_no_host, container, false)
+        return inflater.inflate(R.layout.fragment_live_new, container, false)
+//        return inflater.inflate(R.layout.fragment_live_new_no_host, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -45,13 +45,20 @@ open class MainLiveFragmentNew : Fragment(), OnRefreshLoadMoreListener {
         mRecyclerView?.layoutManager = LinearLayoutManager(context)
 
         adapter = Adapter(dataList)
+
         mRecyclerView?.adapter = adapter
 
         mRefreshLayout?.setEnableRefresh(true)
-        mRefreshLayout?.setEnableFooterFollowWhenNoMoreData(false)
-        mRefreshLayout?.setEnableLoadMoreWhenContentNotFull(false)
+        mRefreshLayout?.setEnableLoadMore(false)
+        mRefreshLayout?.setEnableAutoLoadMore(false)
+
+//        mRefreshLayout?.setDisableContentWhenLoading(true)//加载时禁止操作
+//        mRefreshLayout?.setDisableContentWhenRefresh(true)//加载时禁止操作
+
         mRefreshLayout?.setOnRefreshLoadMoreListener(this)
 
+
+//        mRecyclerView?.postDelayed(runnable, 1000)
     }
 
     private val mOnScrollListener: RecyclerView.OnScrollListener =
@@ -170,14 +177,14 @@ open class MainLiveFragmentNew : Fragment(), OnRefreshLoadMoreListener {
         RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-//            val view: View = LayoutInflater.from(context).inflate(R.layout.xllive_rv, parent, false)
-            var view: View? = null
+            val view: View = LayoutInflater.from(context).inflate(R.layout.xllive_rv, parent, false)
+       /*     var view: View? = null
             view = if (viewType == RecyclerView.HORIZONTAL) {
 //                LayoutInflater.from(context).inflate(R.layout.xllive_rv_no_host_v, parent, false)
                 LayoutInflater.from(context).inflate(R.layout.xllive_rv_no_host_h, parent, false)
             } else {
                 LayoutInflater.from(context).inflate(R.layout.xllive_rv_no_host_v, parent, false)
-            }
+            }*/
             return Holder(view)
         }
 
