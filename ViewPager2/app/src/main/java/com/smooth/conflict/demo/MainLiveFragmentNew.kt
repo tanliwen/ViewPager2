@@ -69,13 +69,20 @@ open class MainLiveFragmentNew : Fragment(), OnRefreshLoadMoreListener {
 
         val data2 = Data()
         data2.orientation = RecyclerView.VERTICAL
-        for (item in 1..30) {
+        for (item in 1..20) {
             data2.dataList.add(Item("$item"))
+        }
+
+        val data3 = Data()
+        data3.orientation = RecyclerView.VERTICAL
+        for (item in 1..10) {
+            data3.dataList.add(Item("$item"))
         }
 
         dataList.clear()
         dataList.add(data1)
         dataList.add(data2)
+        dataList.add(data3)
         adapter = Adapter(dataList)
         mRecyclerView?.adapter = adapter
         mRefreshLayout?.finishRefresh()
