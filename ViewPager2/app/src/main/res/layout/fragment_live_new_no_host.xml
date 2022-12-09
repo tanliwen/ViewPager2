@@ -11,12 +11,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerview"
+        <com.xunlei.tdlive.smartrefresh.RecyclerViewVp
+            android:id="@+id/recyclerViewRoot"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="48dp" />
+            android:layout_height="match_parent"/>
 
 
     </com.xunlei.tdlive.smartrefresh.XLSmartRefreshLayout>

@@ -20,7 +20,6 @@ public class FindXFragment extends Fragment {
 
     public Fragment[] fragments;
 
-
     @Override
     public View onCreateView(
             LayoutInflater inflater, ViewGroup container,

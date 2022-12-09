@@ -24,7 +24,7 @@ import com.xunlei.tdlive.smartrefresh.XLSmartRefreshLayout
 */
 open class MainLiveFragmentNew : Fragment(), OnRefreshLoadMoreListener {
 
-    val dataList: ArrayList<Data> = ArrayList()
+    private val dataList: ArrayList<Data> = ArrayList()
     var mRefreshLayout: XLSmartRefreshLayout? = null
     var mRecyclerView: RecyclerView? = null
     var adapter: Adapter? = null
@@ -34,14 +34,14 @@ open class MainLiveFragmentNew : Fragment(), OnRefreshLoadMoreListener {
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_live_new, container, false)
-//        return inflater.inflate(R.layout.fragment_live_new_no_host, container, false)
+//        return inflater.inflate(R.layout.fragment_live_new, container, false)
+        return inflater.inflate(R.layout.fragment_live_new_no_host, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         mRefreshLayout = view.findViewById(R.id.refresh_layout)
-        mRecyclerView = view.findViewById(R.id.recyclerview)
+        mRecyclerView = view.findViewById(R.id.recyclerViewRoot)
         mRecyclerView?.layoutManager = LinearLayoutManager(context)
 
         adapter = Adapter(dataList)
@@ -86,8 +86,8 @@ open class MainLiveFragmentNew : Fragment(), OnRefreshLoadMoreListener {
     }
 
     override fun onLoadMore(refreshLayout: RefreshLayout) {
+        mRecyclerView?.postDelayed({ mRefreshLayout?.finishLoadMore() }, 1000)
     }
-
 
     class RvAdapter(var data: Data) : RecyclerView.Adapter<RvAdapter.ViewHolder>() {
         override fun getItemCount(): Int {
@@ -124,7 +124,7 @@ open class MainLiveFragmentNew : Fragment(), OnRefreshLoadMoreListener {
 
     class Holder(view: View) : RecyclerView.ViewHolder(view) {
 
-        var recyclerView: RecyclerView? = null
+        private var recyclerView: RecyclerView? = null
 
         fun bindData(data: Data) {
 
@@ -155,16 +155,18 @@ open class MainLiveFragmentNew : Fragment(), OnRefreshLoadMoreListener {
         var dataList: ArrayList<Item> = ArrayList()
     }
 
-    inner class Adapter : RecyclerView.Adapter<RecyclerView.ViewHolder> {
-        private var dataList: ArrayList<Data> = ArrayList()
-
-        constructor(dataList: ArrayList<Data>) {
-            this.dataList = dataList
-        }
+    inner class Adapter(private var dataList: ArrayList<Data>) :
+        RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-            val view: View = LayoutInflater.from(context).inflate(R.layout.xllive_rv, parent, false)
-//            val view: View = LayoutInflater.from(context).inflate(R.layout.xllive_rv_no_host, parent, false)
+//            val view: View = LayoutInflater.from(context).inflate(R.layout.xllive_rv, parent, false)
+            var view: View? = null
+            view = if (viewType == RecyclerView.HORIZONTAL) {
+//                LayoutInflater.from(context).inflate(R.layout.xllive_rv_no_host_v, parent, false)
+                LayoutInflater.from(context).inflate(R.layout.xllive_rv_no_host_h, parent, false)
+            } else {
+                LayoutInflater.from(context).inflate(R.layout.xllive_rv_no_host_v, parent, false)
+            }
             return Holder(view)
         }
 
@@ -175,8 +177,13 @@ open class MainLiveFragmentNew : Fragment(), OnRefreshLoadMoreListener {
             }
         }
 
+
         override fun getItemCount(): Int {
             return dataList.size
+        }
+
+        override fun getItemViewType(position: Int): Int {
+            return dataList[position].orientation
         }
     }
 }
