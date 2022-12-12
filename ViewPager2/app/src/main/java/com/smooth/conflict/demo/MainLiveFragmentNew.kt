@@ -47,7 +47,7 @@ open class MainLiveFragmentNew : Fragment(), OnRefreshLoadMoreListener {
         adapter = Adapter(dataList)
 
         mRecyclerView?.adapter = adapter
-
+        mRecyclerView?.setScrollingTouchSlop(RecyclerView.TOUCH_SLOP_PAGING)
         mRefreshLayout?.setEnableRefresh(true)
         mRefreshLayout?.setEnableLoadMore(false)
         mRefreshLayout?.setEnableAutoLoadMore(false)
@@ -148,6 +148,7 @@ open class MainLiveFragmentNew : Fragment(), OnRefreshLoadMoreListener {
         fun bindData(data: Data) {
 
             recyclerView?.let {
+                it.setScrollingTouchSlop(RecyclerView.TOUCH_SLOP_PAGING)
                 val mg = LinearLayoutManager(it.context)
                 mg.orientation = data.orientation
                 it.layoutManager = mg

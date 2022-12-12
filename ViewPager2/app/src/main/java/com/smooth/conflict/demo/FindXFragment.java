@@ -50,6 +50,10 @@ public class FindXFragment extends Fragment {
         ViewPager2 pager2 = view.findViewById(R.id.viewPager);
 //        changeSlop(pager2);
 
+        if(pager2.getChildAt(0) instanceof RecyclerView){
+            ((RecyclerView)(pager2.getChildAt(0))).setScrollingTouchSlop(RecyclerView.TOUCH_SLOP_PAGING);
+        }
+
 
         FragmentStateAdapter adapter = new FragmentStateAdapter(this) {
             @NonNull
@@ -82,5 +86,4 @@ public class FindXFragment extends Fragment {
         } catch (Exception ignore) {
         }
     }
-
 }

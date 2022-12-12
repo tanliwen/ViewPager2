@@ -26,7 +26,7 @@ public class XLSmartRefreshLayout extends SmartRefreshLayoutWrapper {
     private void init() {
         Object view = getViewPager2(this);
         if (view != null && view.getClass().isAssignableFrom(clazz)) {
-            changeSlop((ViewParent) view);
+//            changeSlop((ViewParent) view);
         }
     }
 
