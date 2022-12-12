@@ -12,17 +12,10 @@
         android:layout_height="match_parent">
 
 
-        <androidx.viewpager2.integration.testapp.NestedScrollableHost
+        <com.xunlei.tdlive.smartrefresh.RecyclerViewVp
+            android:id="@+id/recyclerViewRoot"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerViewRoot"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
-
-        </androidx.viewpager2.integration.testapp.NestedScrollableHost>
+            android:layout_height="match_parent" />
 
 
     </com.xunlei.tdlive.smartrefresh.XLSmartRefreshLayout>

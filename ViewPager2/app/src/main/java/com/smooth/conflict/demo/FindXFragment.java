@@ -1,6 +1,7 @@
 package com.smooth.conflict.demo;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.integration.testapp.R;
 import androidx.viewpager2.widget.ViewPager2;
+
+import com.xunlei.tdlive.pulltorefresh.LogTag;
 
 import java.lang.reflect.Field;
 
@@ -38,14 +41,14 @@ public class FindXFragment extends Fragment {
 
         fragments = new Fragment[]{
                 new CardFragment(),
-                new MainLiveFragment(), //现有非smart实现
+//                new MainLiveFragment(), //现有非smart实现
                 new CardFragment(),
-//                new MainLiveFragmentNew(), //smart androiddx 1.1.0 实现
+                new MainLiveFragmentNew(), //smart androiddx 1.1.0 实现
                 new CardFragment(),
         };
 
         ViewPager2 pager2 = view.findViewById(R.id.viewPager);
-        changeSlop(pager2);
+//        changeSlop(pager2);
 
 
         FragmentStateAdapter adapter = new FragmentStateAdapter(this) {
@@ -67,13 +70,14 @@ public class FindXFragment extends Fragment {
         try {
             final Field recyclerViewField = vp.getClass().getDeclaredField("mRecyclerView");
             recyclerViewField.setAccessible(true);
-
             final RecyclerView recyclerView = (RecyclerView) recyclerViewField.get(vp);//vb.viewpagerHome为要改变滑动距离的viewpager2控件
 
             final Field touchSlopField = RecyclerView.class.getDeclaredField("mTouchSlop");
             touchSlopField.setAccessible(true);
 
             final int touchSlop = (int) touchSlopField.get(recyclerView);
+
+            Log.e(LogTag.TAG_LIVE_SMOOTH, "touchSlop = " + touchSlop + ", touchSlop 3 = " + touchSlop * 3);
             touchSlopField.set(recyclerView, touchSlop * 3);
         } catch (Exception ignore) {
         }

@@ -26,6 +26,7 @@ import android.widget.FrameLayout
 import androidx.viewpager2.widget.ViewPager2
 import androidx.viewpager2.widget.ViewPager2.ORIENTATION_HORIZONTAL
 import com.xunlei.tdlive.pulltorefresh.LogTag
+import kotlin.math.abs
 import kotlin.math.absoluteValue
 import kotlin.math.sign
 
@@ -42,8 +43,8 @@ class NestedScrollableHost : FrameLayout {
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
 
     private var touchSlop = 0
-    private var initialX = 0f
-    private var initialY = 0f
+    private var lastX = 0f
+    private var lastY = 0f
     private val parentViewPager: ViewPager2?
         get() {
             var v: View? = parent as? View
@@ -73,6 +74,29 @@ class NestedScrollableHost : FrameLayout {
         return super.onInterceptTouchEvent(e)
     }
 
+    private fun handleInterceptTouchEvent2(e: MotionEvent) {
+        val x = e.x
+        val y = e.y
+
+        if (e.action == MotionEvent.ACTION_DOWN) {
+            parent.requestDisallowInterceptTouchEvent(true)
+        } else if (e.action == MotionEvent.ACTION_MOVE) {
+            val dx = x - lastX
+            val dy = y - lastY
+            val xDistance = abs(dx)
+            val yDistance = abs(dy)
+            Log.d(LogTag.TAG_LIVE_SMOOTH, "滑动 xDistance = $xDistance, yDistance = $yDistance")
+            if (abs(dx) > abs(yDistance)) {
+                Log.d(LogTag.TAG_LIVE_SMOOTH, "水平滑动")
+                parent.requestDisallowInterceptTouchEvent(false)
+            } else {
+                parent.requestDisallowInterceptTouchEvent(true)
+            }
+        }
+        lastX = x
+        lastY = y
+    }
+
     private fun handleInterceptTouchEvent(e: MotionEvent) {
         val orientation = parentViewPager?.orientation ?: return
 
@@ -81,19 +105,23 @@ class NestedScrollableHost : FrameLayout {
             Log.d(LogTag.TAG_LIVE_SMOOTH, "handleInterceptTouchEvent1 return")
             return
         }
-
         if (e.action == MotionEvent.ACTION_DOWN) {
-            initialX = e.x
-            initialY = e.y
+            lastX = e.x
+            lastY = e.y
             parent.requestDisallowInterceptTouchEvent(true)
-
             Log.d(LogTag.TAG_LIVE_SMOOTH, "handleInterceptTouchEvent2 requestDisallowInterceptTouchEvent(true)")
         } else if (e.action == MotionEvent.ACTION_MOVE) {
-            val dx = e.x - initialX
-            val dy = e.y - initialY
+            val dx = e.x - lastX
+            val dy =  e.y - lastY
             val isVpHorizontal = orientation == ORIENTATION_HORIZONTAL
 
-            // assuming ViewPager2 touch-slop is 2x touch-slop of child
+            val xDistance = abs(dx)
+            val yDistance = abs(dy)
+
+            Log.d(LogTag.TAG_LIVE_SMOOTH, "滑动 xDistance = $xDistance, yDistance = $yDistance")
+
+
+                // assuming ViewPager2 touch-slop is 2x touch-slop of child
             val scaledDx = dx.absoluteValue * if (isVpHorizontal) .5f else 1f
             val scaledDy = dy.absoluteValue * if (isVpHorizontal) 1f else .5f
 

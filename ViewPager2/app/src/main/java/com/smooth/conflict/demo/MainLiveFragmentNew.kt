@@ -59,6 +59,8 @@ open class MainLiveFragmentNew : Fragment(), OnRefreshLoadMoreListener {
 
 
 //        mRecyclerView?.postDelayed(runnable, 1000)
+
+        mRefreshLayout?.autoRefresh()
     }
 
     private val mOnScrollListener: RecyclerView.OnScrollListener =
@@ -177,14 +179,14 @@ open class MainLiveFragmentNew : Fragment(), OnRefreshLoadMoreListener {
         RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-            val view: View = LayoutInflater.from(context).inflate(R.layout.xllive_rv, parent, false)
-       /*     var view: View? = null
+//            val view: View = LayoutInflater.from(context).inflate(R.layout.xllive_rv, parent, false)
+            var view: View? = null
             view = if (viewType == RecyclerView.HORIZONTAL) {
 //                LayoutInflater.from(context).inflate(R.layout.xllive_rv_no_host_v, parent, false)
                 LayoutInflater.from(context).inflate(R.layout.xllive_rv_no_host_h, parent, false)
             } else {
                 LayoutInflater.from(context).inflate(R.layout.xllive_rv_no_host_v, parent, false)
-            }*/
+            }
             return Holder(view)
         }
 
